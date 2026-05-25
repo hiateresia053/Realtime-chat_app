@@ -12,11 +12,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/chat', [ChatController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('chat');
-
 Route::middleware('auth')->group(function () {
+
+    Route::get('/chat', [ChatController::class, 'index'])
+        ->name('chat');
+
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])
+        ->name('chat.send');
 
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
