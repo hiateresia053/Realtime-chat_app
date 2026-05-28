@@ -18,8 +18,10 @@
 
                             @if($user->id !== auth()->id())
 
-                                <div class="bg-white p-4 rounded-xl shadow-sm hover:bg-blue-50 cursor-pointer transition">
-
+                                <a
+    href="{{ route('chat.user', $user->id) }}"
+    class="block bg-white p-4 rounded-xl shadow-sm hover:bg-blue-50 cursor-pointer transition"
+>
                                     <div class="flex items-center justify-between">
 
                                         <div>
@@ -28,15 +30,18 @@
                                             </h3>
 
                                             <p class="text-sm text-gray-400">
-                                                Online
-                                            </p>
-                                        </div>
+    {{ $user->last_seen && $user->last_seen->gt(now()->subMinutes(2)) ? 'Online' : 'Offline' }}
+</p>
 
-                                        <span class="w-3 h-3 bg-green-500 rounded-full"></span>
-
+<span
+    class="w-3 h-3 rounded-full
+    {{ $user->last_seen && $user->last_seen->gt(now()->subMinutes(2))
+        ? 'bg-green-500'
+        : 'bg-gray-400' }}">
+</span>
                                     </div>
 
-                                </div>
+                                </a>
 
                             @endif
 
